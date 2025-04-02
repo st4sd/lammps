@@ -1,0 +1,32 @@
+entrypoint:
+  entry-instance: "lammps"
+  execute:
+    - target: <entry-instance>
+      args:
+        cpus: 1
+        gpus: 1
+        input.file.in: input.file.in
+
+components:
+  - signature:
+      name: lammps
+      parameters:
+        - name: cpus
+        - name: gpus
+        - name: input.file.in
+        - name: bin_size
+          default: 2.8
+    command:
+      executable: bash
+      arguments: |
+        -c "cp %(input.file.in)s:ref . &&
+        mpirun -n %(gpus)s lmp -k on g %(gpus)s -sf kk -pk kokkos cuda/aware on neigh full comm device binsize %(bin_size)s -in $(basename %(input.file.in)s:ref)"
+      expandArguments: none
+      environment:
+        LD_LIBRARY_PATH: /usr/local/lammps/sm80/lib:/usr/local/cuda/lib:/usr/local/cuda/lib64:/usr/local/fftw/lib:/usr/local/fftw/lib:/usr/local/fftw/lib:/usr/local/fftw/lib:/usr/local/fftw/lib
+        PATH: /usr/local/lammps/sm80/bin/:/usr/local/openmpi/bin:/usr/local/ucx/bin:/usr/local/nvidia/bin:/usr/local/cuda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    resourceManager:
+      config:
+        backend: kubernetes
+      kubernetes:
+        image: nvcr.io/hpc/lammps:patch_15Jun2023
