@@ -7,4 +7,8 @@ This is a single step experiment around the Large-scale Atomic/Molecular Massive
 
 From: https://www.lammps.org
 
-You can find some example input files in https://github.com/lammps/lammps/tree/patch_15Jun2023/examples 
+You can find some example input files in https://github.com/lammps/lammps/tree/patch_15Jun2023/examples
+
+## Push experiment
+
+Follow the stp [documentation](https://st4sd.github.io/overview/stp) to first login and then push your experiment into your ST4SD Cloud instance using the [package.json](package.json) file.
