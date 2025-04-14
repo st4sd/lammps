@@ -40,7 +40,7 @@ components:
       arguments: |
         -c "
           cp %(file.in)s:ref . && 
-          mpirun -n %(gpus)s lmp -k on g %(gpus)s -sf kk -pk kokkos cuda/aware on neigh full comm device 
+          mpirun -n %(gpus)s lmp -k on g %(gpus)s -sf kk -pk kokkos cuda/aware on neigh full comm device \
                   binsize %(bin_size)s -in $(basename %(file.in)s:ref)
         "
       expandArguments: none
