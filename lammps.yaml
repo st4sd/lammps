@@ -21,7 +21,7 @@ workflows:
     execute:
       - target: <lammps>
         args:
-          file.in: "%(input.file.in)s"
+          file.in: "%(input.file.in)s:ref"
           cpus: "%(lammps-cpus)s"
           gpus: "%(lammps-gpus)s"
           bin_size: "%(lammps-bin_size)s"
@@ -39,7 +39,7 @@ components:
       executable: bash
       arguments: |
         -c "
-          cp %(file.in)s:ref . && 
+          cp %(file.in)s . && 
           mpirun -n %(gpus)s lmp -k on g %(gpus)s -sf kk -pk kokkos cuda/aware on neigh full comm device \
                   binsize %(bin_size)s -in $(basename %(file.in)s:ref)
         "
